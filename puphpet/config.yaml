@@ -88,6 +88,8 @@ apache:
             servername: concrete5.dev
             serveraliases:
                 - www.concrete5.dev
+                - concrete5dev.com
+                - www.concrete5dev.com
             docroot: /var/www/concrete5
             port: '80'
             override:
