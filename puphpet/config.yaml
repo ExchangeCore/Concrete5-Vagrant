@@ -10,7 +10,7 @@ vagrantfile-local:
         network:
             private_network: 192.168.56.121
             forwarded_port:
-                bhyLYkWlPBVb:
+                ul7w8v72xG8M:
                     host: '9248'
                     guest: '22'
         post_up_message: ''
@@ -32,7 +32,9 @@ vagrantfile-local:
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
         synced_folder:
-            bTC17sttRVVo:
+            aYSHZ5JO8T00:
+                owner: ''
+                group: ''
                 source: ../web
                 target: /var/www/concrete5
                 sync_type: default
@@ -65,7 +67,7 @@ server:
 firewall:
     install: '1'
     rules:
-        YKZDyExygUkZ:
+        KYxbhkvKGdYs:
             port: '1080'
             priority: '100'
             proto: tcp
@@ -82,7 +84,7 @@ apache:
     modules:
         - rewrite
     vhosts:
-        E12ZAwAmhd9h:
+        iuhdklh4THBW:
             servername: concrete5.dev
             serveraliases:
                 - www.concrete5.dev
@@ -107,8 +109,10 @@ nginx:
         default_vhost: 1
         proxy_buffer_size: 128k
         proxy_buffers: '4 256k'
+    upstreams: {  }
     vhosts:
-        rpcQN3M5IzEc:
+        EvAh4GvcLUhz:
+            proxy: ''
             server_name: awesome.dev
             server_aliases:
                 - www.awesome.dev
@@ -122,6 +126,7 @@ nginx:
             envvars:
                 - 'APP_ENV dev'
             engine: php
+            client_max_body_size: 1m
             ssl_cert: ''
             ssl_key: ''
 php:
@@ -132,11 +137,11 @@ php:
     modules:
         php:
             - cli
+            - gd
             - intl
+            - ldap
             - mcrypt
             - mysqlnd
-            - gd
-            - ldap
         pear: {  }
         pecl:
             - pecl_http
@@ -144,7 +149,7 @@ php:
         display_errors: On
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
-        short_open_tag: 1
+        short_open_tag: '1'
     timezone: America/Chicago
     mod_php: 0
 hhvm:
@@ -170,13 +175,16 @@ xdebug:
         xdebug.remote_port: '9000'
 xhprof:
     install: '0'
+wpcli:
+    install: '0'
+    version: ''
 drush:
     install: '0'
     version: 6.3.0
 ruby:
     install: '1'
     versions:
-        Z6SNDwFBxE6n:
+        1RGTutl9z1WG:
             version: ''
 nodejs:
     install: '0'
@@ -185,14 +193,15 @@ python:
     install: '1'
     packages: {  }
     versions:
-        XeLZB73NgSGM:
+        q8svwBMuA2T7:
             version: ''
 mysql:
     install: '1'
+    override_options: {  }
     root_password: concrete5developer
     adminer: '1'
     databases:
-        7uXu9a1n7yGc:
+        1JKRQvpsgFEd:
             grant:
                 - ALL
             name: concrete5
@@ -211,6 +220,7 @@ postgresql:
     adminer: 0
 mariadb:
     install: '0'
+    override_options: {  }
     root_password: '123'
     adminer: 0
     databases: {  }
@@ -257,6 +267,11 @@ rabbitmq:
 elastic_search:
     install: '0'
     settings:
+        version: ''
         java_install: true
-        autoupgrade: true
+solr:
+    install: '0'
+    settings:
+        version: ''
+        port: ''
 
