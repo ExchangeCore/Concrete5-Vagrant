@@ -142,6 +142,7 @@ php:
             - ldap
             - mcrypt
             - mysqlnd
+            - curl
         pear: {  }
         pecl:
             - pecl_http
