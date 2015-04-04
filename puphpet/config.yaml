@@ -33,18 +33,20 @@ vagrantfile-local:
                     - '--parser future'
         synced_folder:
             aYSHZ5JO8T00:
-                owner: ''
-                group: ''
+                owner: www-data
+                group: www-data
                 source: ../web
                 target: /var/www/concrete5
                 sync_type: default
                 rsync:
-                    args:
-                        - '--verbose'
-                        - '--archive'
-                        - '-z'
-                    exclude:
-                        - .vagrant/
+                    auto: 'false'
+            aVOy85dTFcT0:
+                owner: www-data
+                group: www-data
+                source: ../
+                target: /opt/concrete5
+                sync_type: default
+                rsync:
                     auto: 'false'
         usable_port_range:
             start: 10200
@@ -64,16 +66,24 @@ vagrantfile-local:
 server:
     install: '1'
     packages: {  }
+users_groups:
+    install: '1'
+    groups: {  }
+    users: {  }
+cron:
+    install: '1'
+    jobs: {  }
 firewall:
     install: '1'
     rules:
-        KYxbhkvKGdYs:
-            port: '1080'
+        vwmYaiNP7CTZ:
+            port:
+                - '1080'
             priority: '100'
             proto: tcp
             action: accept
 apache:
-    install: '1'
+    install: '0'
     settings:
         user: www-data
         group: www-data
@@ -83,57 +93,38 @@ apache:
         sendfile: 0
     modules:
         - rewrite
-    vhosts:
-        iuhdklh4THBW:
-            servername: concrete5.dev
-            serveraliases:
-                - www.concrete5.dev
-                - concrete5dev.com
-                - www.concrete5dev.com
-            docroot: /var/www/concrete5
-            port: '80'
-            override:
-                - All
-            options:
-                - Indexes
-                - FollowSymLinks
-                - MultiViews
-            engine: php
-            custom_fragment: ''
-            ssl_cert: ''
-            ssl_key: ''
-            ssl_chain: ''
-            ssl_certs_dir: ''
-    mod_pagespeed: 0
+    vhosts: {  }
 nginx:
-    install: '0'
+    install: '1'
     settings:
         default_vhost: 1
         proxy_buffer_size: 128k
         proxy_buffers: '4 256k'
     upstreams: {  }
     vhosts:
-        EvAh4GvcLUhz:
+        9hzpqhszb4vz:
             proxy: ''
-            server_name: awesome.dev
+            server_name: concrete5.dev
             server_aliases:
-                - www.awesome.dev
-            www_root: /var/www/awesome
+                - www.concrete5.dev
+                - concrete5dev.com
+                - www.concrete5dev.com
+            www_root: /var/www/concrete5
             listen_port: '80'
-            location: \.php$
             index_files:
                 - index.html
                 - index.htm
                 - index.php
-            envvars:
-                - 'APP_ENV dev'
-            engine: php
             client_max_body_size: 1m
             ssl_cert: ''
             ssl_key: ''
+            ssl_port: ''
 php:
     install: '1'
-    version: '56'
+    settings:
+        version: '56'
+    fpm_settings:
+        port: 9000
     composer: '1'
     composer_home: ''
     modules:
@@ -145,6 +136,7 @@ php:
             - mcrypt
             - mysqlnd
             - curl
+            - imagick
         pear: {  }
         pecl:
             - pecl_http
@@ -153,8 +145,6 @@ php:
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
         short_open_tag: '1'
-    timezone: America/Chicago
-    mod_php: 0
 hhvm:
     install: '0'
     nightly: 0
@@ -187,47 +177,50 @@ drush:
 ruby:
     install: '1'
     versions:
-        1RGTutl9z1WG:
+        Ub4OmME05SR3:
             version: ''
 nodejs:
-    install: '0'
+    install: '1'
     npm_packages: {  }
 python:
     install: '1'
     packages: {  }
     versions:
-        q8svwBMuA2T7:
+        vtFY3pN1mQyA:
             version: ''
 mysql:
     install: '1'
-    override_options: {  }
-    root_password: concrete5developer
+    settings:
+        version: '5.6'
+        root_password: concrete5developer
+        override_options: {  }
     adminer: '1'
-    databases:
-        1JKRQvpsgFEd:
-            grant:
-                - ALL
+    users:
+        qr6Mr7RLZGDP:
             name: concrete5
-            host: localhost
-            user: concrete5
             password: concrete5developer
-            sql_file: ''
+    databases:
+        QkwWTkNxC4za:
+            name: concrete5
+            sql: ''
+    grants:
+        L49Pqqrm6Hmi:
+            user: concrete5
+            table: 'concrete5.*'
+            privileges:
+                - ALL
 postgresql:
     install: '0'
     settings:
-        root_password: '123'
-        user_group: postgres
-        encoding: UTF8
-        version: '9.3'
+        global:
+            encoding: UTF8
+            version: '9.3'
+        server:
+            postgres_password: ''
     databases: {  }
+    users: {  }
+    grants: {  }
     adminer: 0
-mariadb:
-    install: '0'
-    override_options: {  }
-    root_password: '123'
-    adminer: 0
-    databases: {  }
-    version: '10.0'
 sqlite:
     install: '0'
     adminer: 0
@@ -236,6 +229,7 @@ mongodb:
     install: '0'
     settings:
         auth: 1
+        bind_ip: 127.0.0.1
         port: '27017'
     databases: {  }
 redis:
@@ -267,10 +261,13 @@ rabbitmq:
     install: '0'
     settings:
         port: '5672'
+    users: {  }
+    vhosts: {  }
+    plugins: {  }
 elastic_search:
     install: '0'
     settings:
-        version: ''
+        version: null
         java_install: true
 solr:
     install: '0'
