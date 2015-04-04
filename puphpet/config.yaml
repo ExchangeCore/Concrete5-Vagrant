@@ -116,6 +116,29 @@ nginx:
                 - index.htm
                 - index.php
             client_max_body_size: 1m
+            locations:
+                vgcnw0hgbpdr:
+                    location: /
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - index.php
+                    fastcgi: ''
+                    fastcgi_index: ''
+                    fastcgi_split_path: ''
+                ygqtmfuyowcf:
+                    location: '~ \.php$'
+                    try_files:
+                        - $uri
+                        - $uri/
+                        - index.php
+                        - /index.php$is_args$args
+                    fastcgi: '127.0.0.1:9000'
+                    fastcgi_index: index.php
+                    fastcgi_split_path: '^(.+\.php)(/.*)$'
+                    fast_cgi_params_extra:
+                        - 'SCRIPT_FILENAME $request_filename'
+                        - 'APP_ENV dev'
             ssl_cert: ''
             ssl_key: ''
             ssl_port: ''
@@ -181,7 +204,8 @@ ruby:
             version: ''
 nodejs:
     install: '1'
-    npm_packages: {  }
+    npm_packages:
+        - grunt-cli
 python:
     install: '1'
     packages: {  }
